@@ -27,17 +27,17 @@ const getPhotos = async e => {
       `${BASE_URL}?${API_KEY}${PARAMS}&q=${search}&page=${currentPage}`
     );
     refs.load.classList.remove('hide');
+
     if (e.type === 'click') {
       currentPage += 1;
     }
+
     if (response.data.total == 0) {
       refs.load.classList.add('hide');
       Notiflix.Notify.warning(
         'Sorry, there are no images matching your search query. Please try again.'
       );
     }
-    insertContent(response.data.hits);
-    
 
     if (
       currentPage > response.data.totalHits / 40 &&
@@ -48,6 +48,7 @@ const getPhotos = async e => {
         "We're sorry, but you've reached the end of search results."
       );
     }
+    insertContent(response.data.hits);
   } catch (error) {
     console.log(error);
   } finally {
