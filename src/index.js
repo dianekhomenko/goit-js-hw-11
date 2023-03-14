@@ -28,8 +28,6 @@ const getPhotos = async e => {
     );
     refs.load.classList.remove('hide');
 
-
-
     if (response.data.total == 0) {
       refs.load.classList.add('hide');
       Notiflix.Notify.warning(
