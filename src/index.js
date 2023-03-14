@@ -28,9 +28,7 @@ const getPhotos = async e => {
     );
     refs.load.classList.remove('hide');
 
-    if (e.type === 'click') {
-      currentPage += 1;
-    }
+
 
     if (response.data.total == 0) {
       refs.load.classList.add('hide');
@@ -49,6 +47,17 @@ const getPhotos = async e => {
       );
     }
     insertContent(response.data.hits);
+    if (e.type === 'click') {
+      currentPage += 1;
+      const { height: cardHeight } = document
+        .querySelector('.gallery')
+        .firstElementChild.getBoundingClientRect();
+
+      window.scrollBy({
+        top: cardHeight * 2,
+        behavior: 'smooth',
+      });
+    }
   } catch (error) {
     console.log(error);
   } finally {
