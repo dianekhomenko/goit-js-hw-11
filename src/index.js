@@ -13,52 +13,61 @@ const refs = {
   load: document.querySelector('.load-more'),
 };
 
-let currentPage = 1;
+let currentPage;
+
+function emptySearch() {
+  refs.load.classList.add('hide');
+  Notiflix.Notify.warning(
+    'Sorry, there are no images matching your search query. Please try again.'
+  );
+}
+
+function endSearch() {
+  refs.load.classList.add('hide');
+  Notiflix.Notify.info(
+    "We're sorry, but you've reached the end of search results."
+  );
+}
+
+function scrolling() {
+  const { height: cardHeight } = document
+    .querySelector('.gallery')
+    .firstElementChild.getBoundingClientRect();
+
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
+  });
+}
+
+function onSubmit() {
+  refs.gallery.innerHTML = '';
+  currentPage = 1;
+}
 
 const getPhotos = async e => {
   e.preventDefault();
-  if (e.type === 'submit') {
-    refs.gallery.innerHTML = '';
-  }
   const search = refs.input.value;
+
+  e.type === 'submit' ? onSubmit() : (currentPage += 1);
 
   try {
     const response = await axios.get(
       `${BASE_URL}?${API_KEY}${PARAMS}&q=${search}&page=${currentPage}`
     );
+
     refs.load.classList.remove('hide');
 
-    if (response.data.total == 0) {
-      refs.load.classList.add('hide');
-      Notiflix.Notify.warning(
-        'Sorry, there are no images matching your search query. Please try again.'
-      );
-    }
+    response.data.total == 0 ? emptySearch() : '';
+    currentPage > response.data.totalHits / 40 && response.data.total !== 0
+      ? endSearch()
+      : '';
 
-    if (
-      currentPage > response.data.totalHits / 40 &&
-      response.data.total !== 0
-    ) {
-      refs.load.classList.add('hide');
-      Notiflix.Notify.info(
-        "We're sorry, but you've reached the end of search results."
-      );
-    }
     insertContent(response.data.hits);
-    if (e.type === 'click') {
-      currentPage += 1;
-      const { height: cardHeight } = document
-        .querySelector('.gallery')
-        .firstElementChild.getBoundingClientRect();
 
-      window.scrollBy({
-        top: cardHeight * 2,
-        behavior: 'smooth',
-      });
-    }
+    e.type === 'click' ? scrolling() : '';
   } catch (error) {
     console.log(error);
-  } finally {
   }
 };
 
