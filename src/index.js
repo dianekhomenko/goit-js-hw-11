@@ -1,5 +1,7 @@
 import Notiflix from 'notiflix';
 import axios from 'axios';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const API_KEY = 'key=34409732-2eb98e59aad866aa53f09776f';
 const BASE_URL = 'https://pixabay.com/api/';
@@ -47,32 +49,48 @@ function onSubmit() {
 
 const getPhotos = async e => {
   e.preventDefault();
+  Notiflix.Loading.standard({
+    backgroundColor: 'transparent',
+    cssAnimationDuration: 800,
+  });
   const search = refs.input.value;
 
   e.type === 'submit' ? onSubmit() : (currentPage += 1);
 
   try {
+    
     const response = await axios.get(
       `${BASE_URL}?${API_KEY}${PARAMS}&q=${search}&page=${currentPage}`
     );
 
     refs.load.classList.remove('hide');
 
-    response.data.total == 0 ? emptySearch() : '';
+    response.data.total == 0
+      ? emptySearch()
+      : '';
     currentPage > response.data.totalHits / 40 && response.data.total !== 0
       ? endSearch()
       : '';
 
     insertContent(response.data.hits);
-
-    e.type === 'click' ? scrolling() : '';
+    lightbox.refresh();
+ 
+  
+    e.type === 'click'
+      ? scrolling()
+      : Notiflix.Notify.success(
+          `Hooray! We found ${response.data.totalHits} images.`
+        );
   } catch (error) {
     console.log(error);
+  } finally {
+    Notiflix.Loading.remove();
   }
 };
 
 const createLi = item =>
   `<div class="photo-card">
+  <a href="${item.largeImageURL}">
   <img src="${item.webformatURL}" alt="${item.tags}" loading="lazy" width="320" height="200"/>
   <div class="info">
     <p class="info-item">
@@ -88,6 +106,7 @@ const createLi = item =>
       <b>Downloads</b>${item.downloads}
     </p>
   </div>
+  </a>
 </div>`;
 
 const generateContent = array =>
@@ -100,3 +119,8 @@ const insertContent = array => {
 
 refs.form.addEventListener('submit', getPhotos);
 refs.load.addEventListener('click', getPhotos);
+
+const lightbox = new SimpleLightbox('.photo-card a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
