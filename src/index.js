@@ -58,29 +58,28 @@ const getPhotos = async e => {
   e.type === 'submit' ? onSubmit() : (currentPage += 1);
 
   try {
-    
     const response = await axios.get(
       `${BASE_URL}?${API_KEY}${PARAMS}&q=${search}&page=${currentPage}`
     );
 
     refs.load.classList.remove('hide');
 
-    response.data.total == 0
-      ? emptySearch()
+    response.data.total == 0 ? emptySearch() : '';
+
+    e.type === 'submit' && response.data.total !== 0
+      ? Notiflix.Notify.success(
+          `Hooray! We found ${response.data.totalHits} images.`
+        )
       : '';
+
     currentPage > response.data.totalHits / 40 && response.data.total !== 0
       ? endSearch()
       : '';
 
     insertContent(response.data.hits);
     lightbox.refresh();
- 
-  
-    e.type === 'click'
-      ? scrolling()
-      : Notiflix.Notify.success(
-          `Hooray! We found ${response.data.totalHits} images.`
-        );
+
+    e.type === 'click' ? scrolling() : '';
   } catch (error) {
     console.log(error);
   } finally {
