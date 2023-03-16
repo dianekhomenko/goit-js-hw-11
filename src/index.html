@@ -8,7 +8,7 @@
     <title>Homework 11</title>
   </head>
   <body>
-    <div class="search-bar full-search ">
+    <div class="search-bar full-search">
       <form class="search-form" id="search-form">
         <input
           type="text"
@@ -20,28 +20,33 @@
       </form>
     </div>
 
-    <div class="gallery">
+    <label class="hide sort-label">
+      <select name="sorting" id="sorting" class="sorting">
+        <option value="popular">Popular</option>
+        <option value="latest">Newest</option>
+      </select>
+    </label>
 
-    </div>
+    <div class="gallery"></div>
 
     <button type="button" class="load-more hide black-bt">Load more</button>
- 
+
     <button class="back-to-top hidden">
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    class="back-to-top-icon"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      d="M7 11l5-5m0 0l5 5m-5-5v12"
-    />
-  </svg>
-</button>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="back-to-top-icon"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M7 11l5-5m0 0l5 5m-5-5v12"
+        />
+      </svg>
+    </button>
 
     <script src="index.js" type="module"></script>
   </body>

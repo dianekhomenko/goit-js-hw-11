@@ -14,7 +14,9 @@ const refs = {
   gallery: document.querySelector('.gallery'),
   load: document.querySelector('.load-more'),
   searchBar: document.querySelector('.full-search'),
-  top: document.querySelector('.top'),
+  top: document.querySelector('.back-to-top'),
+  sorting: document.querySelector('.sorting'),
+  sortlabel: document.querySelector('.sort-label'),
 };
 
 let currentPage;
@@ -48,6 +50,7 @@ function onSubmit() {
   refs.gallery.innerHTML = '';
   currentPage = 1;
   refs.searchBar.classList.remove('full-search');
+  refs.sortlabel.classList.remove('hide');
 }
 
 const getPhotos = async e => {
@@ -57,12 +60,13 @@ const getPhotos = async e => {
     cssAnimationDuration: 800,
   });
   const search = refs.input.value;
+  const order = refs.sorting.value;
 
-  e.type === 'submit' ? onSubmit() : (currentPage += 1);
+  e.type === 'submit' || e.type === 'change' ? onSubmit() : (currentPage += 1);
 
   try {
     const response = await axios.get(
-      `${BASE_URL}?${API_KEY}${PARAMS}&q=${search}&page=${currentPage}`
+      `${BASE_URL}?${API_KEY}${PARAMS}&q=${search}&page=${currentPage}&order=${order}`
     );
 
     refs.load.classList.remove('hide');
@@ -92,6 +96,7 @@ const getPhotos = async e => {
 
 const createLi = item =>
   `<div class="photo-card">
+  <button class="save">Save</button>
   <a href="${item.largeImageURL}">
   <img src="${item.webformatURL}" alt="${item.tags}" loading="lazy" width="320" height="200"/>
   <div class="info">
@@ -116,11 +121,18 @@ const generateContent = array =>
 
 const insertContent = array => {
   const result = generateContent(array);
-  refs.gallery.insertAdjacentHTML('beforeend', result);
+  refs.gallery.insertAdjacentHTML('beforeend', result); 
 };
+  
+// function onSave() {
+//   const save = document.querySelector('.save');
 
-refs.form.addEventListener('submit', getPhotos);
-refs.load.addEventListener('click', getPhotos);
+//   save.addEventListener('click', () => {
+//     save.classList.toggle('.saved');
+//     save.innerHTML('Saved');
+//     console.log('save');
+//   })
+// }
 
 const lightbox = new SimpleLightbox('.photo-card a', {
   captionsData: 'alt',
@@ -128,7 +140,6 @@ const lightbox = new SimpleLightbox('.photo-card a', {
 });
 
 const showOnPx = 100;
-const backToTopButton = document.querySelector('.back-to-top');
 
 const scrollContainer = () => {
   return document.documentElement || document.body;
@@ -136,9 +147,9 @@ const scrollContainer = () => {
 
 document.addEventListener('scroll', () => {
   if (scrollContainer().scrollTop > showOnPx) {
-    backToTopButton.classList.remove('hidden');
+    refs.top.classList.remove('hidden');
   } else {
-    backToTopButton.classList.add('hidden');
+    refs.top.classList.add('hidden');
   }
 });
 
@@ -148,4 +159,7 @@ const goToTop = () => {
   });
 };
 
-backToTopButton.addEventListener('click', goToTop);
+refs.top.addEventListener('click', goToTop);
+refs.form.addEventListener('submit', getPhotos);
+refs.load.addEventListener('click', getPhotos);
+refs.sorting.addEventListener('change', getPhotos);
