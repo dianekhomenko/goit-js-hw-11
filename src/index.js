@@ -13,6 +13,8 @@ const refs = {
   form: document.querySelector('.search-form'),
   gallery: document.querySelector('.gallery'),
   load: document.querySelector('.load-more'),
+  searchBar: document.querySelector('.full-search'),
+  top: document.querySelector('.top'),
 };
 
 let currentPage;
@@ -45,6 +47,7 @@ function scrolling() {
 function onSubmit() {
   refs.gallery.innerHTML = '';
   currentPage = 1;
+  refs.searchBar.classList.remove('full-search');
 }
 
 const getPhotos = async e => {
@@ -123,3 +126,26 @@ const lightbox = new SimpleLightbox('.photo-card a', {
   captionsData: 'alt',
   captionDelay: 250,
 });
+
+const showOnPx = 100;
+const backToTopButton = document.querySelector('.back-to-top');
+
+const scrollContainer = () => {
+  return document.documentElement || document.body;
+};
+
+document.addEventListener('scroll', () => {
+  if (scrollContainer().scrollTop > showOnPx) {
+    backToTopButton.classList.remove('hidden');
+  } else {
+    backToTopButton.classList.add('hidden');
+  }
+});
+
+const goToTop = () => {
+  document.body.scrollIntoView({
+    behavior: 'smooth',
+  });
+};
+
+backToTopButton.addEventListener('click', goToTop);

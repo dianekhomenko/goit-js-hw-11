@@ -8,9 +8,14 @@
     <title>Homework 11</title>
   </head>
   <body>
-    <div class="search-bar">
+    <div class="search-bar full-search ">
       <form class="search-form" id="search-form">
-        <input type="text" name="searchQuery" autocomplete="off" placeholder="Search images..." />
+        <input
+          type="text"
+          name="searchQuery"
+          autocomplete="off"
+          placeholder="Search images..."
+        />
         <button type="submit" class="black-bt">Search</button>
       </form>
     </div>
@@ -20,7 +25,24 @@
     </div>
 
     <button type="button" class="load-more hide black-bt">Load more</button>
-    
+ 
+    <button class="back-to-top hidden">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="back-to-top-icon"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M7 11l5-5m0 0l5 5m-5-5v12"
+    />
+  </svg>
+</button>
+
     <script src="index.js" type="module"></script>
   </body>
 </html>
