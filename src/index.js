@@ -20,6 +20,7 @@ const refs = {
 };
 
 let currentPage;
+let save;
 
 function emptySearch() {
   refs.load.classList.add('hide');
@@ -96,7 +97,7 @@ const getPhotos = async e => {
 
 const createLi = item =>
   `<div class="photo-card">
-  <button class="save">Save</button>
+  <button class="save" onclick="onSave()"></button>
   <a href="${item.largeImageURL}">
   <img src="${item.webformatURL}" alt="${item.tags}" loading="lazy" width="320" height="200"/>
   <div class="info">
@@ -122,19 +123,7 @@ const generateContent = array =>
 const insertContent = array => {
   const result = generateContent(array);
   refs.gallery.insertAdjacentHTML('beforeend', result); 
-
-  onSave();
 };
-  
-function onSave() {
-  const save = document.querySelector('.save');
-
-  save.addEventListener('click', () => {
-    save.classList.toggle('.saved');
-    save.innerHTML('Saved');
-    console.log('save');
-  })
-}
 
 const lightbox = new SimpleLightbox('.photo-card a', {
   captionsData: 'alt',

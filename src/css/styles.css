@@ -319,7 +319,15 @@ select::-ms-expand {
   border: none;
 }
 
+.save::after {
+  content: 'Save';
+}
+
 .saved {
   background-color: coral;
   color: #fafafa;
+}
+
+.saved::after {
+  content: 'Saved';
 }
