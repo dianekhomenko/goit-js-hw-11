@@ -2,7 +2,6 @@ import { refs } from '..';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-
 export const createLi = item =>
   `<div class="photo-card" data-id="${item.id}">
   <button class="save" onclick="onClickSave()"></button>

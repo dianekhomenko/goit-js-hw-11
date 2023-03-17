@@ -369,5 +369,19 @@ h1 {
 }
 
 .back {
+left: 3%;
+position: relative;
+}
 
+.back::before {
+  content: '<  ';
+  font-weight: 700;
+}
+
+.header {
+    display: flex;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      background-color: #b8aed1;
+      
 }

@@ -5,7 +5,7 @@ import { emptySearch, endSearch, onSubmit } from './partials/search-params';
 import { insertContent, lightbox } from './partials/generate-content';
 import { goToTop, scrolling } from './partials/scroll';
 
-let currentPage;
+export let currentPage;
 export const API_KEY = 'key=34409732-2eb98e59aad866aa53f09776f';
 export const BASE_URL = 'https://pixabay.com/api/';
 export const PARAMS =
