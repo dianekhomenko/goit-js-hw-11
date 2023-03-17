@@ -17,7 +17,7 @@ export function endSearch() {
 
 export function onSubmit() {
   refs.gallery.innerHTML = '';
-  currentPage = 1;
+  let currentPage = 1;
   refs.searchBar.classList.remove('full-search');
   refs.sortlabel.classList.remove('hide');
 }
