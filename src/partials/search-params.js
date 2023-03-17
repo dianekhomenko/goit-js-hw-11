@@ -1,6 +1,5 @@
 import { refs } from '..';
 import Notiflix from 'notiflix';
-import { currentPage } from '..';
 
 export function emptySearch() {
   refs.load.classList.add('hide');
