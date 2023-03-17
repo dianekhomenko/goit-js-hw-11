@@ -122,17 +122,19 @@ const generateContent = array =>
 const insertContent = array => {
   const result = generateContent(array);
   refs.gallery.insertAdjacentHTML('beforeend', result); 
+
+  onSave();
 };
   
-// function onSave() {
-//   const save = document.querySelector('.save');
+function onSave() {
+  const save = document.querySelector('.save');
 
-//   save.addEventListener('click', () => {
-//     save.classList.toggle('.saved');
-//     save.innerHTML('Saved');
-//     console.log('save');
-//   })
-// }
+  save.addEventListener('click', () => {
+    save.classList.toggle('.saved');
+    save.innerHTML('Saved');
+    console.log('save');
+  })
+}
 
 const lightbox = new SimpleLightbox('.photo-card a', {
   captionsData: 'alt',
