@@ -1,14 +1,17 @@
 import Notiflix from 'notiflix';
 import axios from 'axios';
-import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+import { emptySearch, endSearch, onSubmit } from './partials/search-params';
+import { insertContent, lightbox } from './partials/generate-content';
+import { goToTop, scrolling } from './partials/scroll';
 
-const API_KEY = 'key=34409732-2eb98e59aad866aa53f09776f';
-const BASE_URL = 'https://pixabay.com/api/';
-const PARAMS =
+let currentPage;
+export const API_KEY = 'key=34409732-2eb98e59aad866aa53f09776f';
+export const BASE_URL = 'https://pixabay.com/api/';
+export const PARAMS =
   '&image_type=photo&orientation=horizontal&safesearch=true&per_page=40';
 
-const refs = {
+export const refs = {
   input: document.querySelector('input'),
   form: document.querySelector('.search-form'),
   gallery: document.querySelector('.gallery'),
@@ -18,41 +21,6 @@ const refs = {
   sorting: document.querySelector('.sorting'),
   sortlabel: document.querySelector('.sort-label'),
 };
-
-let currentPage;
-let save;
-
-function emptySearch() {
-  refs.load.classList.add('hide');
-  Notiflix.Notify.warning(
-    'Sorry, there are no images matching your search query. Please try again.'
-  );
-}
-
-function endSearch() {
-  refs.load.classList.add('hide');
-  Notiflix.Notify.info(
-    "We're sorry, but you've reached the end of search results."
-  );
-}
-
-function scrolling() {
-  const { height: cardHeight } = document
-    .querySelector('.gallery')
-    .firstElementChild.getBoundingClientRect();
-
-  window.scrollBy({
-    top: cardHeight * 2,
-    behavior: 'smooth',
-  });
-}
-
-function onSubmit() {
-  refs.gallery.innerHTML = '';
-  currentPage = 1;
-  refs.searchBar.classList.remove('full-search');
-  refs.sortlabel.classList.remove('hide');
-}
 
 const getPhotos = async e => {
   e.preventDefault();
@@ -93,61 +61,6 @@ const getPhotos = async e => {
   } finally {
     Notiflix.Loading.remove();
   }
-};
-
-const createLi = item =>
-  `<div class="photo-card">
-  <button class="save" onclick="onSave()"></button>
-  <a href="${item.largeImageURL}">
-  <img src="${item.webformatURL}" alt="${item.tags}" loading="lazy" width="320" height="200"/>
-  <div class="info">
-    <p class="info-item">
-      <b>Likes</b>${item.likes}
-    </p>
-    <p class="info-item">
-      <b>Views</b>${item.views}
-    </p>
-    <p class="info-item">
-      <b>Comments</b>${item.comments}
-    </p>
-    <p class="info-item">
-      <b>Downloads</b>${item.downloads}
-    </p>
-  </div>
-  </a>
-</div>`;
-
-const generateContent = array =>
-  array.reduce((acc, item) => acc + createLi(item), '');
-
-const insertContent = array => {
-  const result = generateContent(array);
-  refs.gallery.insertAdjacentHTML('beforeend', result); 
-};
-
-const lightbox = new SimpleLightbox('.photo-card a', {
-  captionsData: 'alt',
-  captionDelay: 250,
-});
-
-const showOnPx = 100;
-
-const scrollContainer = () => {
-  return document.documentElement || document.body;
-};
-
-document.addEventListener('scroll', () => {
-  if (scrollContainer().scrollTop > showOnPx) {
-    refs.top.classList.remove('hidden');
-  } else {
-    refs.top.classList.add('hidden');
-  }
-});
-
-const goToTop = () => {
-  document.body.scrollIntoView({
-    behavior: 'smooth',
-  });
 };
 
 refs.top.addEventListener('click', goToTop);

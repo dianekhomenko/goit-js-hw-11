@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/src/css/styles.css" />
+    <script type="text/javascript" src="/src/partials/save.js"></script>
     <title>Homework 11</title>
   </head>
   <body>
@@ -26,6 +27,7 @@
         <option value="latest">Newest</option>
       </select>
     </label>
+    <div class="saved-link"><a href="/src/saved.html">Saved</a></div>
 
     <div class="gallery"></div>
 
@@ -47,12 +49,6 @@
         />
       </svg>
     </button>
-     <script>
-      function onSave() {
-  event.currentTarget.classList.toggle("saved");
-      };
-    </script>   
     <script src="index.js" type="module"></script>
-
   </body>
 </html>
